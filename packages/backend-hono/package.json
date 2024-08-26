@@ -1,0 +1,25 @@
+{
+  "name": "backend-hono",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run ./src/main.ts --watch",
+    "build": "bun build ./src/main.ts --external bun:sqlite --minify --outdir=dist"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.15.3",
+    "@hono/zod-validator": "^0.2.2",
+    "@y-sweet/sdk": "^0.2.1",
+    "axios": "^1.7.5",
+    "hono": "^4.5.6",
+    "nanoid": "^5.0.7",
+    "yjs": "^13.6.18",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.6"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "y-sweet-dev-server",
+  "type": "module",
+  "scripts": {
+    "dev": "bunx y-sweet@latest serve"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

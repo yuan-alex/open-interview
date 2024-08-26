@@ -1,0 +1,4 @@
+dist
+database.sqlite
+.env
+.DS_Store
