@@ -106,15 +106,6 @@ onMount(async () => {
   await initMonaco();
 });
 
-const parseData = (data: string) => {
-  try {
-    const parsed = JSON.parse(data);
-    return parsed;
-  } catch {
-    return null;
-  }
-};
-
 const handleClearSubmissions = () => {
   codeResultHistory.set([]);
 };

@@ -2,12 +2,16 @@ import { DocumentManager } from "@y-sweet/sdk";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { logger } from "hono/logger";
+import { customAlphabet } from "nanoid";
 import * as Y from "yjs";
 
 import { db } from "./utils/crud";
 import * as crud from "./utils/crud";
 import { Judge0Api } from "./utils/judge0";
 import * as languageUtils from "./utils/languages";
+import { getRandomAnimalName } from "./utils/user";
+
+const nanoid = customAlphabet("1234567890abcdef");
 
 const judge0 = new Judge0Api(
   process.env.JUDGE0_API_URL,
@@ -18,70 +22,35 @@ const yDocumentManager = new DocumentManager(
   process.env.Y_SWEET_CONNECTION_STRING,
 );
 
-function parseData(data: string) {
-  try {
-    const parsed = JSON.parse(data);
-    return parsed;
-  } catch {
-    return null;
-  }
-}
-
-const rooms = new Map();
-
-function joinRoom(client, roomName) {
-  if (!rooms.has(roomName)) {
-    rooms.set(roomName, new Set());
-  }
-  rooms.get(roomName).add(client);
-  client.room = roomName;
-}
-
-function leaveRoom(client) {
-  if (client.room) {
-    if (rooms.get(client.room).length === 1) {
-      rooms.delete(client.room);
-    } else {
-      rooms.get(client.room).delete(client);
-    }
-    client.room = null;
-  }
-}
-
-function broadcastToRoom(roomName, message) {
-  if (rooms.has(roomName)) {
-    for (const client of rooms.get(roomName)) {
-      client.send(JSON.stringify(message));
-    }
-  }
-}
-
 const app = new Hono();
 
 app.use(logger());
 
 app.get("/api/create-interview", (c) => {
-  const interview = crud.createNewInterview(`New Interview ${new Date()}`);
+  const interview = crud.createNewInterview(
+    `New Interview ${new Date()}`,
+    nanoid(),
+  );
   return c.redirect(`/interview?token=${interview.token}`);
 });
 
 app.get("/api/interview/:token/join", async (c) => {
-  const interview = crud.getInterviewByToken(c.req.param().token);
+  const interviewToken = c.req.param().token;
+  const interview = crud.getInterviewByToken(interviewToken);
   if (!interview) {
     return c.notFound();
   }
 
-  const clientToken = await yDocumentManager.getOrCreateDocAndToken(
-    interview.token,
-  );
+  const clientToken =
+    await yDocumentManager.getOrCreateDocAndToken(interviewToken);
 
-  const participant = crud.createNewParticipant(
-    interview.token,
-    clientToken.token,
-  );
+  const authToken = clientToken.token ?? nanoid();
+  const name = `Anonymous ${getRandomAnimalName()}`;
+  crud.createNewParticipant(interviewToken, authToken, name);
 
   return c.json({
-    ...participant,
+    auth_token: authToken,
+    name,
     y_sweet: clientToken,
   });
 });
@@ -109,33 +78,39 @@ app.post("/api/interview/submit-code", async (c) => {
     body.source_code,
     null,
     null,
-    null,
     body.language_id,
     participant.interview_id,
     participant.id,
   );
 
-  const result = await judge0.compileCodeSync(
+  const judge0Result = await judge0.compileCodeSync(
     body.language_id,
     body.source_code,
   );
 
   const stmt = db.prepare(
-    "UPDATE CodeSubmissions SET judge0_token = $1, stdout = $2, stderr = $3 WHERE id = $4",
+    "UPDATE CodeSubmissions SET judge0_token = ?, stdout = ?, stderr = ? WHERE id = ?",
   );
-  stmt.run(result.token, result.stdout, result.stderr, submission.id);
+  stmt.run(
+    judge0Result.token,
+    judge0Result.stdout,
+    judge0Result.stderr,
+    submission.lastInsertRowid,
+  );
 
   const doc = new Y.Doc();
   doc.getArray("code_submissions").insert(0, [
     {
       language_label: language.label,
-      stdout: result.stdout,
-      stderr: result.stderr,
-      compile_output: result.compile_output,
+      stdout: judge0Result.stdout,
+      stderr: judge0Result.stderr,
+      compile_output: judge0Result.compile_output,
     },
   ]);
   const update = Y.encodeStateAsUpdate(doc);
-  await yDocumentManager.updateDoc(participant.interview.token, update);
+
+  const interview = crud.getInterviewById(participant.interview_id);
+  await yDocumentManager.updateDoc(interview.token, update);
 
   return c.text("ok");
 });
@@ -143,7 +118,10 @@ app.post("/api/interview/submit-code", async (c) => {
 app.use(
   "*",
   serveStatic({
-    path: process.env.NODE_ENV === "development" ? "../client-svelte/dist/client/" : "../client/",
+    path:
+      process.env.NODE_ENV === "development"
+        ? "../client-svelte/dist/client/"
+        : "../client/",
     mimes: {
       js: "application/javascript",
     },
