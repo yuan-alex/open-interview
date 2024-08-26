@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun run ./src/main.ts --watch",
-    "build": "bun build ./src/main.ts --external bun:sqlite --minify --outdir=dist"
+    "build": "bun build ./src/main.ts --minify --outdir=dist"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
