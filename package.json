@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node --host=0.0.0.0 .next/standalone/server.js",
+    "start": "node .next/standalone/server.js",
     "lint": "next lint",
     "format": "biome format . --write"
   },

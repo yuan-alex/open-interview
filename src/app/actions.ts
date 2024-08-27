@@ -4,9 +4,9 @@ import Database from "libsql";
 import * as Y from "yjs";
 import { DocumentManager } from "@y-sweet/sdk";
 
-import * as crud from "@/utils/crud";
-import { getLanguageById } from "@/utils/languages";
-import { Judge0Api } from "@/utils/judge0";
+import * as crud from "../utils/crud";
+import { getLanguageById } from "../utils/languages";
+import { Judge0Api } from "../utils/judge0";
 
 const judge0 = new Judge0Api(
   process.env.JUDGE0_API_URL,

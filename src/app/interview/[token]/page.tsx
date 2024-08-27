@@ -6,8 +6,8 @@ import { DocumentManager } from "@y-sweet/sdk";
 import { customAlphabet } from "nanoid/non-secure";
 import Database from "libsql";
 
-import * as crud from "@/utils/crud";
-import { getRandomAnimalName } from "@/utils/user";
+import * as crud from "../../../utils/crud";
+import { getRandomAnimalName } from "../../../utils/user";
 
 const Interview = dynamic(() => import("./interview"), { ssr: false });
 

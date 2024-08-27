@@ -1,7 +1,7 @@
 import Database from "libsql";
 import { notFound, redirect } from "next/navigation";
 
-import * as crud from "@/utils/crud";
+import * as crud from "../utils/crud";
 
 export default function Home() {
   async function onSubmit(event: FormData) {

@@ -7,8 +7,8 @@ import { type YSweetProvider, createYjsProvider } from "@y-sweet/client";
 import { Editor } from "@monaco-editor/react";
 import { type editor } from "monaco-editor";
 
-import { runCode } from "@/app/actions";
-import { supportedLanguages } from "@/utils/languages";
+import { runCode } from "../../../app/actions";
+import { supportedLanguages } from "../../../utils/languages";
 
 const themes = ["vs-light", "vs-dark"];
 
