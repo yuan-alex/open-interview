@@ -1,51 +1,45 @@
-import Database from "libsql";
+import type Database from "libsql";
+import { customAlphabet } from "nanoid/non-secure";
 
-const url = process.env.LIBSQL_URL;
-const authToken = process.env.LIBSQL_AUTH_TOKEN;
+export const nanoid = customAlphabet("1234567890abcdef");
 
-const opts = {
-  authToken: authToken,
-};
-
-export const db = new Database(url, opts);
-
-export const getInterviewById = (id: string) => {
+export function getInterviewById(db: Database, id: string) {
   const stmt = db.prepare("SELECT * FROM Interviews WHERE id = ?");
   return stmt.get(id);
-};
+}
 
-export const getInterviewByToken = (token: string) => {
+export function getInterviewByToken(db: Database, token: string) {
   const stmt = db.prepare("SELECT * FROM Interviews WHERE token = ?");
   return stmt.get(token);
-};
+}
 
-export function createNewInterview(name: string, token: string) {
-  const stmt = db.prepare(
-    "INSERT INTO Interviews (name, token) VALUES (?, ?) RETURNING *",
-  );
-  const result = stmt.get(name, token);
+export function createNewInterview(db: Database, name: string, token: string) {
+  const stmt = db.prepare("INSERT INTO Interviews (name, token) VALUES (?, ?)");
+  const result = stmt.run(name, token);
   return result;
 }
 
-export function getParticipantByAuthToken(authToken: string) {
+export function getParticipantByAuthToken(db: Database, authToken: string) {
   const stmt = db.prepare("SELECT * FROM Participants WHERE auth_token = ?");
   return stmt.get(authToken);
 }
 
-export const createNewParticipant = (
+export function createNewParticipant(
+  db: Database,
   interviewToken: string,
   authToken: string,
   name: string,
-) => {
-  const interview = getInterviewByToken(interviewToken);
+) {
+  const interview = getInterviewByToken(db, interviewToken);
   const stmt = db.prepare(
     "INSERT INTO Participants (name, auth_token, interview_id) VALUES (?, ?, ?)",
   );
   const result = stmt.run(name, authToken, interview.id);
   return result;
-};
+}
 
 export function createNewCodeSubmission(
+  db: Database,
   judge0_token: number,
   source_code: string,
   stdout: string,

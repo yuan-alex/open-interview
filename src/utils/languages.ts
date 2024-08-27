@@ -39,10 +39,6 @@ export const supportedLanguages: LanguageSupport[] = [
   { id: 83, name: "swift", label: "Swift (5.2.3)" },
 ];
 
-export const languageSelectionOptions = supportedLanguages.map((language) => {
-  return { value: language.id, label: language.label };
-});
-
 export const getLanguageById = (id: number) => {
   return supportedLanguages.find((language) => language.id === id);
 };
