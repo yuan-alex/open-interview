@@ -1,4 +1,3 @@
-import Database from "libsql";
 import { notFound, redirect } from "next/navigation";
 
 import * as crud from "../utils/crud";
@@ -14,12 +13,9 @@ export default function Home() {
       return notFound();
     }
 
-    const db = new Database(process.env.LIBSQL_URL, {
-      authToken: process.env.LIBSQL_AUTH_TOKEN,
-    });
     const token = crud.nanoid();
 
-    await crud.createNewInterview(db, `New Interview ${new Date()}`, token);
+    await crud.createNewInterview(`New Interview ${new Date()}`, token);
 
     return redirect(`/interview/${token}`);
   }

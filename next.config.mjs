@@ -6,7 +6,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
-    serverComponentsExternalPackages: ["yjs", "libsql", "@y-sweet/sdk"],
+    serverComponentsExternalPackages: ["yjs", "@y-sweet/sdk"],
   },
 };
 

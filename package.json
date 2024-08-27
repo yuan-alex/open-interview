@@ -10,11 +10,11 @@
     "format": "biome format . --write"
   },
   "dependencies": {
+    "@libsql/client": "^0.10.0",
     "@monaco-editor/react": "^4.6.0",
     "@y-sweet/client": "^0.2.1",
     "@y-sweet/sdk": "^0.2.1",
     "daisyui": "^4.12.10",
-    "libsql": "0.4.2-pre.3",
     "monaco-editor": "^0.51.0",
     "nanoid": "^5.0.7",
     "next": "14.2.6",

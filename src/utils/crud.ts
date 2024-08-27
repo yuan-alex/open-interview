@@ -1,45 +1,53 @@
-import type Database from "libsql";
 import { customAlphabet } from "nanoid/non-secure";
+
+import { tursoClient } from "./tursoClient";
 
 export const nanoid = customAlphabet("1234567890abcdef");
 
-export function getInterviewById(db: Database, id: string) {
-  const stmt = db.prepare("SELECT * FROM Interviews WHERE id = ?");
-  return stmt.get(id);
+export async function getInterviewById(id: string) {
+  const result = await tursoClient().execute({
+    sql: "SELECT * FROM Interviews WHERE id = ?",
+    args: [id],
+  });
+  return result.rows[0];
 }
 
-export function getInterviewByToken(db: Database, token: string) {
-  const stmt = db.prepare("SELECT * FROM Interviews WHERE token = ?");
-  return stmt.get(token);
+export async function getInterviewByToken(token: string) {
+  const result = await tursoClient().execute({
+    sql: "SELECT * FROM Interviews WHERE token = ?",
+    args: [token],
+  });
+  return result.rows[0];
 }
 
-export function createNewInterview(db: Database, name: string, token: string) {
-  const stmt = db.prepare("INSERT INTO Interviews (name, token) VALUES (?, ?)");
-  const result = stmt.run(name, token);
-  return result;
+export async function createNewInterview(name: string, token: string) {
+  return await tursoClient().execute({
+    sql: "INSERT INTO Interviews (name, token) VALUES (?, ?)",
+    args: [name, token],
+  });
 }
 
-export function getParticipantByAuthToken(db: Database, authToken: string) {
-  const stmt = db.prepare("SELECT * FROM Participants WHERE auth_token = ?");
-  return stmt.get(authToken);
+export async function getParticipantByAuthToken(authToken: string) {
+  const result = await tursoClient().execute({
+    sql: "SELECT * FROM Participants WHERE auth_token = ?",
+    args: [authToken],
+  });
+  return result.rows[0];
 }
 
-export function createNewParticipant(
-  db: Database,
+export async function createNewParticipant(
   interviewToken: string,
   authToken: string,
   name: string,
 ) {
-  const interview = getInterviewByToken(db, interviewToken);
-  const stmt = db.prepare(
-    "INSERT INTO Participants (name, auth_token, interview_id) VALUES (?, ?, ?)",
-  );
-  const result = stmt.run(name, authToken, interview.id);
-  return result;
+  const interview = await getInterviewByToken(interviewToken);
+  return await tursoClient().execute({
+    sql: "INSERT INTO Participants (name, auth_token, interview_id) VALUES (?, ?, ?)",
+    args: [name, authToken, interview.id],
+  });
 }
 
-export function createNewCodeSubmission(
-  db: Database,
+export async function createNewCodeSubmission(
   judge0_token: number,
   source_code: string,
   stdout: string,
@@ -48,19 +56,18 @@ export function createNewCodeSubmission(
   interview_id: number,
   participant_id: number,
 ) {
-  const stmt = db.prepare(
-    `INSERT INTO CodeSubmissions
+  return await tursoClient().execute({
+    sql: `INSERT INTO CodeSubmissions
       (judge0_token, source_code, stdout, stderr, language_id, interview_id, participant_id)
       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-  );
-  const result = stmt.run(
-    judge0_token,
-    source_code,
-    stdout,
-    stderr,
-    language_id,
-    interview_id,
-    participant_id,
-  );
-  return result;
+    args: [
+      judge0_token,
+      source_code,
+      stdout,
+      stderr,
+      language_id,
+      interview_id,
+      participant_id,
+    ],
+  });
 }
