@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:digitalocean": "pnpm install --production=false && pnpm run build && rm -rf node_modules && pnpm install --production --frozen-lockfile",
-    "start": "node .next/standalone/server.js",
+    "start": "node --host=0.0.0.0 .next/standalone/server.js",
     "lint": "next lint",
     "format": "biome format . --write"
   },
