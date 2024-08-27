@@ -2,6 +2,7 @@
 const nextConfig = {
   output: "standalone",
   cleanDistDir: true,
+  productionBrowserSourceMaps: true,
   typescript: {
     ignoreBuildErrors: true,
   },
