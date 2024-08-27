@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:digitalocean": "pnpm install --production=false && pnpm run build && rm -rf node_modules && pnpm install --production --frozen-lockfile",
     "start": "node --host=0.0.0.0 .next/standalone/server.js",
     "lint": "next lint",
     "format": "biome format . --write"
@@ -14,12 +13,15 @@
     "@monaco-editor/react": "^4.6.0",
     "@y-sweet/client": "^0.2.1",
     "@y-sweet/sdk": "^0.2.1",
+    "daisyui": "^4.12.10",
     "libsql": "0.4.2-pre.3",
     "monaco-editor": "^0.51.0",
     "nanoid": "^5.0.7",
     "next": "14.2.6",
+    "postcss": "^8.4.41",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.10",
     "y-monaco": "^0.1.6",
     "yjs": "^13.6.18"
   },
@@ -28,9 +30,6 @@
     "@types/node": "^22.5.0",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
-    "daisyui": "^4.12.10",
-    "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4"
   },
   "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1"
