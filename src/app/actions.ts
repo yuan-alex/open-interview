@@ -48,18 +48,24 @@ export async function runCode(
     ],
   });
 
+  const result = {
+    id: submission.lastInsertRowid,
+    languageLabel: language.label,
+    stdout: judge0Result.stdout,
+    stderr: judge0Result.stderr,
+    compileOutput: judge0Result.compile_output,
+  };
+
+  /*
+  this still doesn't work yet... no idea why but 500 errors on cloud
+
   const doc = new Y.Doc();
-  doc.getArray("code_submissions").insert(0, [
-    {
-      id: submission.lastInsertRowid,
-      languageLabel: language.label,
-      stdout: judge0Result.stdout,
-      stderr: judge0Result.stderr,
-      compileOutput: judge0Result.compile_output,
-    },
-  ]);
+  doc.getArray("code_submissions").insert(0, [result]);
   const update = Y.encodeStateAsUpdate(doc);
 
   const interview = await crud.getInterviewById(participant.interview_id);
   await yDocumentManager.updateDoc(interview.token, update);
+  */
+
+  return result;
 }

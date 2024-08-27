@@ -27,15 +27,17 @@ export default function Interview(props: InterviewProps) {
   const [codeResultHistory, setCodeResultHistory] = useState([]);
 
   const [provider, setProvider] = useState<YSweetProvider>();
+  const [yCodeSubmissions, setYCodeSubmissions] = useState<Y.Array<any>>();
   const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor>();
 
   const handleSubmitCode = useCallback(async () => {
-    await runCode(
+    const result = await runCode(
       props.authToken,
       editorLanguage!!.id,
       editorRef?.getModel()?.getValue() || "",
     );
-  }, [editorRef, editorLanguage]);
+    yCodeSubmissions.insert(0, [result]);
+  }, [editorRef, editorLanguage, props.authToken, yCodeSubmissions]);
 
   const handleOnMount = useCallback((e: editor.IStandaloneCodeEditor) => {
     setEditorRef(e);
@@ -59,9 +61,10 @@ export default function Interview(props: InterviewProps) {
         yProvider.awareness,
       );
 
-      const codeSubmissions = yDoc.getArray("code_submissions");
+      const yArr = yDoc.getArray("code_submissions");
+      setYCodeSubmissions(yArr);
 
-      codeSubmissions.observe((event) => {
+      yArr.observe((event) => {
         for (const item of Array.from(event.changes.added)) {
           setCodeResultHistory((prev) => [item.content.arr[0], ...prev]);
         }
