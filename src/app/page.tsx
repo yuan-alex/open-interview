@@ -30,9 +30,9 @@ export default function Home() {
         </p>
         <p className="text-lg text-gray-700">
           Welcome to <span className="text-blue-700">Open Interview</span>, the
-          open-source web coding interview platform. You can now interviewing
-          prospective hires in a collaborative code editor all on your own
-          infrastructure.
+          open-source web coding interview platform. You can now start
+          interviewing prospective hires in a collaborative code editor all on
+          your own infrastructure.
         </p>
         <div className="my-10" />
         <form action={onSubmit}>
