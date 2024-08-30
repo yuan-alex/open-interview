@@ -23,16 +23,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <div className="text-2xl text-center my-5 font-light">Open Interview</div>
-      <div className="mx-auto w-3/5 py-20">
-        <p className="mb-5 text-xl font-medium text-gray-700">
-          👋 All up and running!
+      <div className="mx-auto w-4/5 lg:w-3/5">
+        <div className="text-2xl mt-5 mb-24 font-light">Open Interview</div>
+        <p className="mb-5 text-6xl font-bold">
+          The open-source web coding interview platform
         </p>
         <p className="text-lg text-gray-700">
-          Welcome to <span className="text-blue-700">Open Interview</span>, the
-          open-source web coding interview platform. You can now start
-          interviewing prospective hires in a collaborative code editor all on
-          your own infrastructure.
+          Interview prospective hires in a collaborative code editor. Powered by
+          your own infrastucture.
         </p>
         <div className="my-10" />
         <form action={onSubmit}>
@@ -41,10 +39,10 @@ export default function Home() {
               type="password"
               name="password"
               placeholder="OPEN_INTERVIEW_SECRET_KEY"
-              className="input input-bordered w-full max-w-xs mr-4"
+              className="input input-bordered input-lg w-full max-w-xs mr-4"
             />
           )}
-          <button type="submit" className="btn">
+          <button type="submit" className="btn btn-lg">
             Create session
           </button>
         </form>
