@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Rubik } from "next/font/google";
 import { Theme, ThemePanel } from "@radix-ui/themes";
 
 import "@radix-ui/themes/styles.css";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Rubik({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Open Interview",

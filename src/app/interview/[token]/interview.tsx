@@ -92,11 +92,10 @@ export default function Interview(props: InterviewProps) {
     <div className="h-screen flex">
       <div className="flex w-2/3 flex-grow flex-col">
         <nav className="p-2 flex items-center space-x-2">
-          <RxCode />
           <p className="text-lg font-light">Open Interview</p>
           <span className="flex-grow" />
           <Select.Root
-            value={editorLanguage.id}
+            value={editorLanguage.id.toString()}
             onValueChange={(value) =>
               setEditorLanguage(
                 supportedLanguages.find((lang) => lang.id == value),
@@ -106,7 +105,7 @@ export default function Interview(props: InterviewProps) {
             <Select.Trigger />
             <Select.Content>
               {supportedLanguages.map((l) => (
-                <Select.Item key={l.id} value={l.id}>
+                <Select.Item key={l.id} value={l.id.toString()}>
                   {l.label}
                 </Select.Item>
               ))}
