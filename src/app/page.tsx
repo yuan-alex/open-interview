@@ -34,11 +34,11 @@ export default function Home() {
             <RxGithubLogo className="w-6 h-6" />
           </a>
         </nav>
-        <Card className="p-24 rounded-xl">
-          <p className="mb-5 text-6xl font-bold">
+        <Card className="p-10 md:p-24">
+          <p className="mb-5 text-3xl md:text-6xl font-bold">
             The open-source web coding interview platform
           </p>
-          <p className="text-2xl">
+          <p className="text-lg md:text-2xl">
             Interview prospective hires in a collaborative code editor. Powered
             by your own infrastucture.
           </p>
@@ -49,7 +49,7 @@ export default function Home() {
                 type="password"
                 name="password"
                 placeholder="Secret key"
-                className="p-2 text-2xl border mr-4"
+                className="py-2 px-5 text-2xl border border-gray-600 mr-4 rounded-full"
               />
             )}
             <Button type="submit" size="4">
