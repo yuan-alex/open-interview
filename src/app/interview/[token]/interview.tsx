@@ -6,6 +6,16 @@ import * as Y from "yjs";
 import { type YSweetProvider, createYjsProvider } from "@y-sweet/client";
 import { Editor } from "@monaco-editor/react";
 import { type editor } from "monaco-editor";
+import {
+  Card,
+  Code,
+  Dialog,
+  Select,
+  TextField,
+  Button,
+  Badge,
+} from "@radix-ui/themes";
+import { RxCode, RxGithubLogo } from "react-icons/rx";
 
 import { runCode } from "../../../app/actions";
 import { supportedLanguages } from "../../../utils/languages";
@@ -22,7 +32,7 @@ export default function Interview(props: InterviewProps) {
     supportedLanguages.find((lang) => lang.id === 63),
   );
   const [editorFontSize, setEditorFontSize] = useState(15);
-  const [editorTheme, setEditorTheme] = useState();
+  const [editorTheme, setEditorTheme] = useState(themes[1]);
 
   const [codeResultHistory, setCodeResultHistory] = useState([]);
 
@@ -79,113 +89,102 @@ export default function Interview(props: InterviewProps) {
   }, [editorRef, props]);
 
   return (
-    <div>
-      <dialog id="settings-modal" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-xl mb-5">Editor settings</h3>
-          <p className="text-sm font-medium mb-1">Theme</p>
-          <select
-            className="select select-bordered w-full"
-            value={editorTheme}
-            onChange={(event) => setEditorTheme(event.target.value)}
+    <div className="h-screen flex">
+      <div className="flex w-2/3 flex-grow flex-col">
+        <nav className="p-2 flex items-center space-x-2">
+          <RxCode />
+          <p className="text-lg font-light">Open Interview</p>
+          <span className="flex-grow" />
+          <Select.Root
+            value={editorLanguage.id}
+            onValueChange={(value) =>
+              setEditorLanguage(
+                supportedLanguages.find((lang) => lang.id == value),
+              )
+            }
           >
-            {themes.map((theme) => (
-              <option key={theme} value={theme}>
-                {theme}
-              </option>
-            ))}
-          </select>
-          <p className="text-sm font-medium mb-1 mt-6">Font size (px)</p>
-          <input
-            type="number"
-            placeholder="Type here"
-            className="input input-bordered w-full"
-            value={editorFontSize}
-            onChange={(event) => setEditorFontSize(event.target.value)}
+            <Select.Trigger />
+            <Select.Content>
+              {supportedLanguages.map((l) => (
+                <Select.Item key={l.id} value={l.id}>
+                  {l.label}
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+          <Dialog.Root>
+            <Dialog.Trigger>
+              <Button>Settings</Button>
+            </Dialog.Trigger>
+
+            <Dialog.Content maxWidth="450px">
+              <Dialog.Title>Settings</Dialog.Title>
+              <Dialog.Description size="2" mb="4">
+                Changes to your editor settings only apply to your session.
+              </Dialog.Description>
+              <p className="text-sm font-medium mb-1 mt-6">Theme</p>
+              <Select.Root
+                value={editorTheme}
+                onValueChange={(value) => setEditorTheme(value)}
+              >
+                <Select.Trigger />
+                <Select.Content>
+                  {themes.map((theme) => (
+                    <Select.Item value={theme}>{theme}</Select.Item>
+                  ))}
+                </Select.Content>
+              </Select.Root>
+              <p className="text-sm font-medium mb-1 mt-6">Font size (px)</p>
+              <TextField.Root
+                type="number"
+                placeholder="Type here"
+                value={editorFontSize}
+                onChange={(event) => setEditorFontSize(event.target.value)}
+              />
+            </Dialog.Content>
+          </Dialog.Root>
+        </nav>
+        <div className="flex-grow">
+          <Editor
+            onMount={handleOnMount}
+            height="100%"
+            width="100hw"
+            theme={editorTheme}
+            language={editorLanguage.name}
+            defaultValue=""
+            options={{
+              fontSize: editorFontSize,
+            }}
           />
         </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-      <div className="h-screen flex divide-x">
-        <div className="flex w-2/3 flex-grow flex-col">
-          <nav className="p-2 flex items-center space-x-2 border-b">
-            <p className="text-lg font-light">Open Interview</p>
-            <span className="flex-grow" />
-            <select
-              className="select select-bordered select-sm"
-              value={editorLanguage.id}
-              onChange={(event) =>
-                setEditorLanguage(
-                  supportedLanguages.find(
-                    (lang) => lang.id == event.target.value,
-                  ),
-                )
-              }
-            >
-              {supportedLanguages.map((language) => (
-                <option key={language.id} value={language.id}>
-                  {language.label}
-                </option>
-              ))}
-            </select>
-            <button
-              className="btn btn-sm"
-              onClick={() =>
-                document.getElementById("settings-modal")?.showModal()
-              }
-            >
-              Editor settings
-            </button>
-          </nav>
-          <div className="flex-grow">
-            <Editor
-              onMount={handleOnMount}
-              height="100%"
-              width="100hw"
-              theme={editorTheme}
-              language={editorLanguage.name}
-              defaultValue=""
-              options={{
-                fontSize: editorFontSize,
-              }}
-            />
-          </div>
-        </div>
-        <div className="w-1/3 flex-grow flex flex-col h-full">
-          <div className="flex-grow overflow-y-scroll h-full">
-            {codeResultHistory.length > 0 ? (
-              <div className="flex flex-col">
-                {codeResultHistory.map((result) => (
-                  <div key={result.id} className="p-3">
-                    <div className="mb-3">
-                      <div className="badge">{result.languageLabel}</div>
-                    </div>
-                    <pre className="p-3 bg-black text-white rounded text-sm font-mono overflow-x-auto">
-                      {result.stdout ?? result.stderr ?? result.compileOutput}
-                    </pre>
+      </div>
+      <div className="w-1/3 flex-grow flex flex-col h-full">
+        <div className="flex-grow overflow-y-scroll h-full">
+          {codeResultHistory.length > 0 ? (
+            <div className="p-3 flex flex-col space-y-3">
+              {codeResultHistory.map((result) => (
+                <Card key={result.id} className="p-3">
+                  <div className="mb-3">
+                    <Badge color="gray">{result.languageLabel}</Badge>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="p-10">
-                <p className="mb-3 text-2xl font-semibold">Ready to start</p>
-                <p>
-                  Click the run button to run the code in your editor. Everyone
-                  in the session will be able to see the output.
-                </p>
-              </div>
-            )}
-          </div>
-          <div className="flex space-x-2 border-t p-2 bg-white">
-            <button
-              className="btn btn-success btn-sm"
-              onClick={handleSubmitCode}
-            >
-              Run
-            </button>
-          </div>
+                  <Code>
+                    {result.stdout ?? result.stderr ?? result.compileOutput}
+                  </Code>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="p-10">
+              <p className="mb-3 text-2xl font-semibold">Ready to start</p>
+              <p>
+                Click the run button to run the code in your editor. Everyone in
+                the session will be able to see the output.
+              </p>
+            </div>
+          )}
+        </div>
+        <div className="flex space-x-2 p-3">
+          <Button onClick={handleSubmitCode}>Run</Button>
         </div>
       </div>
     </div>
