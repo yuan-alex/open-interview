@@ -163,13 +163,18 @@ export default function Interview(props: InterviewProps) {
           {codeResultHistory.length > 0 ? (
             <div className="p-3 flex flex-col space-y-3">
               {codeResultHistory.map((result) => (
-                <Card key={result.id} className="p-3">
+                <Card key={result.id}>
                   <div className="mb-3">
                     <Badge color="gray">{result.languageLabel}</Badge>
                   </div>
-                  <Code>
+                  <pre
+                    className="p-3 text-sm rounded overflow-x-auto"
+                    style={{
+                      backgroundColor: "var(--gray-3)",
+                    }}
+                  >
                     {result.stdout ?? result.stderr ?? result.compileOutput}
-                  </Code>
+                  </pre>
                 </Card>
               ))}
             </div>
