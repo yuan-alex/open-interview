@@ -11,7 +11,7 @@ export default function Home() {
     "use server";
 
     if (
-      process.env.OPEN_INTERVIEW_AUTH_ENABLED === "true" &&
+      process.env.NEXT_PUBLIC_OPEN_INTERIVEW_AUTH_ENABLED === "true" &&
       (!event.get("password") ||
         event.get("password") !== process.env.SECRET_KEY!)
     ) {
