@@ -4,6 +4,8 @@
 
 Open Interview is an open-source coding interview platform built with Next.js, making it easily deployable to your preferred hosting environment.
 
+![Demo](src/app/demo.png)
+
 ## Getting Started
 
 ### Authentication
@@ -27,7 +29,7 @@ Open Interview uses the Judge0 platform as its code runtime engine. Set the foll
 - `JUDGE0_API_URL`=[your Judge0 API URL]
 - `JUDGE0_AUTH_TOKEN`=[your Judge0 auth token]
 
-### Real-time Collaboration
+### Real-time Server
 
 Real-time collaboration and editing is powered by Y-Sweet, a platform similar to Y.js. Set the following environment variable to configure Y-Sweet:
 
@@ -35,7 +37,7 @@ Real-time collaboration and editing is powered by Y-Sweet, a platform similar to
 
 ### Deployment
 
-Open Interview is a Next.js application, so it can be deployed to any hosting platform that supports Next.js, such as Vercel, Netlify, or your own self-hosted solution.
+Open Interview is at its core, a Next.js application, so it can be deployed to any hosting platform that supports Next.js, such as Vercel, Netlify, or your own self-hosted solution.
 
 ## Contributing
 
