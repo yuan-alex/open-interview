@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import { DocumentManager } from "@y-sweet/sdk";
 import { customAlphabet } from "nanoid/non-secure";
+import { YDocProvider } from "@y-sweet/react";
 
 import * as crud from "../../../utils/crud";
 import { getRandomAnimalName } from "../../../utils/user";
@@ -32,8 +33,8 @@ export default async function InterviewServerComponent({ params }) {
   crud.createNewParticipant(interviewToken, authToken, name);
 
   return (
-    <div>
+    <YDocProvider clientToken={ySweetToken}>
       <Interview authToken={authToken} ySweetAuth={ySweetToken} />
-    </div>
+    </YDocProvider>
   );
 }

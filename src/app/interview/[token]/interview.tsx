@@ -16,6 +16,7 @@ import {
   Badge,
 } from "@radix-ui/themes";
 import { RxCode, RxGithubLogo } from "react-icons/rx";
+import { useArray, useAwareness, useText } from "@y-sweet/react";
 
 import { runCode } from "../../../app/actions";
 import { supportedLanguages } from "../../../utils/languages";
@@ -24,7 +25,6 @@ const themes = ["vs-light", "vs-dark"];
 
 interface InterviewProps {
   authToken: string;
-  ySweetAuth: any;
 }
 
 export default function Interview(props: InterviewProps) {
@@ -34,10 +34,10 @@ export default function Interview(props: InterviewProps) {
   const [editorFontSize, setEditorFontSize] = useState(15);
   const [editorTheme, setEditorTheme] = useState(themes[1]);
 
-  const [codeResultHistory, setCodeResultHistory] = useState([]);
+  const awareness = useAwareness();
+  const yText = useText("editor");
+  const yCodeSubmissions = useArray<Y.Map<any>>("code_submissions");
 
-  const [provider, setProvider] = useState<YSweetProvider>();
-  const [yCodeSubmissions, setYCodeSubmissions] = useState<Y.Array<any>>();
   const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor>();
 
   const handleSubmitCode = useCallback(async () => {
@@ -54,36 +54,18 @@ export default function Interview(props: InterviewProps) {
   }, []);
 
   useEffect(() => {
-    let yProvider: any;
-    let yDoc: Y.Doc;
     let binding: MonacoBinding;
 
     if (editorRef) {
-      yDoc = new Y.Doc();
-      const yText = yDoc.getText("editor");
-      const yProvider = createYjsProvider(yDoc, props.ySweetAuth);
-      setProvider(yProvider);
-
       binding = new MonacoBinding(
         yText,
         editorRef.getModel() as editor.ITextModel,
         new Set([editorRef]),
-        yProvider.awareness,
+        awareness,
       );
-
-      const yArr = yDoc.getArray("code_submissions");
-      setYCodeSubmissions(yArr);
-
-      yArr.observe((event) => {
-        for (const item of Array.from(event.changes.added)) {
-          setCodeResultHistory((prev) => [item.content.arr[0], ...prev]);
-        }
-      });
     }
 
     return () => {
-      yDoc?.destroy();
-      yProvider?.destroy();
       binding?.destroy();
     };
   }, [editorRef, props]);
@@ -159,9 +141,9 @@ export default function Interview(props: InterviewProps) {
       </div>
       <div className="w-1/3 flex-grow flex flex-col h-full">
         <div className="flex-grow overflow-y-scroll h-full">
-          {codeResultHistory.length > 0 ? (
+          {yCodeSubmissions.length > 0 ? (
             <div className="p-3 flex flex-col space-y-3">
-              {codeResultHistory.map((result) => (
+              {yCodeSubmissions.map((result) => (
                 <Card key={result.id}>
                   <div className="mb-3">
                     <Badge color="gray">{result.languageLabel}</Badge>
