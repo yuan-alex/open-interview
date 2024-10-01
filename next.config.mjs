@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   cleanDistDir: true,
-  productionBrowserSourceMaps: true,
   typescript: {
     ignoreBuildErrors: true,
   },
