@@ -111,7 +111,9 @@ export default function Interview(props: InterviewProps) {
                 <Select.Trigger />
                 <Select.Content>
                   {themes.map((theme) => (
-                    <Select.Item value={theme}>{theme}</Select.Item>
+                    <Select.Item key={theme} value={theme}>
+                      {theme}
+                    </Select.Item>
                   ))}
                 </Select.Content>
               </Select.Root>
