@@ -1,24 +1,23 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { MonacoBinding } from "y-monaco";
-import * as Y from "yjs";
-import { type YSweetProvider, createYjsProvider } from "@y-sweet/client";
 import { Editor } from "@monaco-editor/react";
-import { type editor } from "monaco-editor";
 import {
+  Badge,
+  Button,
   Card,
   Code,
   Dialog,
   Select,
   TextField,
-  Button,
-  Badge,
 } from "@radix-ui/themes";
-import { RxCode, RxGithubLogo } from "react-icons/rx";
+import { type YSweetProvider, createYjsProvider } from "@y-sweet/client";
 import { useArray, useAwareness, useText } from "@y-sweet/react";
+import type { editor } from "monaco-editor";
+import { useCallback, useEffect, useState } from "react";
+import { RxCode, RxGithubLogo } from "react-icons/rx";
+import { MonacoBinding } from "y-monaco";
+import type * as Y from "yjs";
 
-import { runCode } from "../../../app/actions";
 import { supportedLanguages } from "../../../utils/languages";
 
 const themes = ["vs-light", "vs-dark"];
@@ -41,11 +40,17 @@ export default function Interview(props: InterviewProps) {
   const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor>();
 
   const handleSubmitCode = useCallback(async () => {
-    const result = await runCode(
-      props.authToken,
-      editorLanguage!!.id,
-      editorRef?.getModel()?.getValue() || "",
-    );
+    const response = await fetch("/api/code", {
+      method: "POST", headers: {
+        'Content-Type': 'application/json'
+      }, body: JSON.stringify({
+        authToken: props.authToken,
+        languageId: editorLanguage.id,
+        sourceCode: editorRef?.getModel()?.getValue() || ""
+      })
+    })
+    const result = await response.json();
+
     yCodeSubmissions.insert(0, [result]);
   }, [editorRef, editorLanguage, props.authToken, yCodeSubmissions]);
 

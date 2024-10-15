@@ -1,21 +1,23 @@
 "use server";
 
-import * as Y from "yjs";
 import { DocumentManager } from "@y-sweet/sdk";
+import * as Y from "yjs";
 
-import * as crud from "../utils/crud";
-import { getLanguageById } from "../utils/languages";
-import { Judge0Api } from "../utils/judge0";
 import { tursoClient } from "@/utils/tursoClient";
+import * as crud from "../utils/crud";
+import { Judge0Api } from "../utils/judge0";
+import { getLanguageById } from "../utils/languages";
 
 const judge0 = new Judge0Api(
   process.env.JUDGE0_API_URL,
   process.env.JUDGE0_AUTH_TOKEN,
 );
 
+/*
 const yDocumentManager = new DocumentManager(
   process.env.Y_SWEET_CONNECTION_STRING,
 );
+*/
 
 export async function runCode(
   authToken: string,
@@ -36,16 +38,16 @@ export async function runCode(
   );
 
   const judge0Result =
-    process.env.NODE_ENV == "development"
+    process.env.NODE_ENV === "development"
       ? {
-          token: `STAGING ${new Date()}`,
-          stdout: sourceCode,
-          time: 0,
-          memory: 0,
-          stderr: null,
-          compile_output: null,
-          message: null,
-        }
+        token: `STAGING ${new Date()}`,
+        stdout: sourceCode,
+        time: 0,
+        memory: 0,
+        stderr: null,
+        compile_output: null,
+        message: null,
+      }
       : await judge0.compileCodeSync(languageId, sourceCode);
 
   await tursoClient().execute({
@@ -60,7 +62,7 @@ export async function runCode(
   });
 
   const result = {
-    id: submission.lastInsertRowid,
+    id: Number(submission.lastInsertRowid),
     languageLabel: language.label,
     stdout: judge0Result.stdout,
     stderr: judge0Result.stderr,
