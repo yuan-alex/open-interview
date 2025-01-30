@@ -21,8 +21,7 @@ export default async function InterviewServerComponent({ params }) {
     process.env.Y_SWEET_CONNECTION_STRING!,
   );
 
-  const ySweetToken =
-    await yDocumentManager.getOrCreateDocAndToken(token);
+  const ySweetToken = await yDocumentManager.getOrCreateDocAndToken(token);
 
   const authToken = ySweetToken.token ?? nanoid();
   const name = `Anonymous ${getRandomAnimalName()}`;

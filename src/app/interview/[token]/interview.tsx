@@ -1,15 +1,7 @@
 "use client";
 
 import { Editor } from "@monaco-editor/react";
-import {
-  Badge,
-  Button,
-  Card,
-  Code,
-  Dialog,
-  Select,
-  TextField,
-} from "@radix-ui/themes";
+import { Badge, Button, Card } from "@radix-ui/themes";
 import { type YSweetProvider, createYjsProvider } from "@y-sweet/client";
 import { useArray, useAwareness, useText } from "@y-sweet/react";
 import type { editor } from "monaco-editor";
@@ -18,9 +10,9 @@ import { RxCode, RxGithubLogo } from "react-icons/rx";
 import { MonacoBinding } from "y-monaco";
 import type * as Y from "yjs";
 
-import { supportedLanguages } from "../../../utils/languages";
-
-const themes = ["vs-light", "vs-dark"];
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { SettingsDialog } from "@/components/SettingsDialog";
+import { supportedLanguages } from "@/utils/languages";
 
 interface InterviewProps {
   authToken: string;
@@ -31,7 +23,7 @@ export function Interview(props: InterviewProps) {
     supportedLanguages.find((lang) => lang.id === 63),
   );
   const [editorFontSize, setEditorFontSize] = useState(15);
-  const [editorTheme, setEditorTheme] = useState(themes[1]);
+  const [editorTheme, setEditorTheme] = useState("vs-dark");
 
   const awareness = useAwareness();
   const yText = useText("editor");
@@ -41,14 +33,16 @@ export function Interview(props: InterviewProps) {
 
   const handleSubmitCode = useCallback(async () => {
     const response = await fetch("/api/code", {
-      method: "POST", headers: {
-        'Content-Type': 'application/json'
-      }, body: JSON.stringify({
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         authToken: props.authToken,
         languageId: editorLanguage.id,
-        sourceCode: editorRef?.getModel()?.getValue() || ""
-      })
-    })
+        sourceCode: editorRef?.getModel()?.getValue() || "",
+      }),
+    });
     const result = await response.json();
 
     yCodeSubmissions.insert(0, [result]);
@@ -81,56 +75,20 @@ export function Interview(props: InterviewProps) {
         <nav className="p-2 flex items-center space-x-2">
           <p className="text-lg font-light">Open Interview</p>
           <span className="flex-grow" />
-          <Select.Root
+          <LanguageSelector
             value={editorLanguage.id.toString()}
             onValueChange={(value) =>
               setEditorLanguage(
                 supportedLanguages.find((lang) => lang.id == value),
               )
             }
-          >
-            <Select.Trigger />
-            <Select.Content>
-              {supportedLanguages.map((l) => (
-                <Select.Item key={l.id} value={l.id.toString()}>
-                  {l.label}
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Root>
-          <Dialog.Root>
-            <Dialog.Trigger>
-              <Button>Settings</Button>
-            </Dialog.Trigger>
-
-            <Dialog.Content maxWidth="450px">
-              <Dialog.Title>Settings</Dialog.Title>
-              <Dialog.Description size="2" mb="4">
-                Changes to your editor settings only apply to your session.
-              </Dialog.Description>
-              <p className="text-sm font-medium mb-1 mt-6">Theme</p>
-              <Select.Root
-                value={editorTheme}
-                onValueChange={(value) => setEditorTheme(value)}
-              >
-                <Select.Trigger />
-                <Select.Content>
-                  {themes.map((theme) => (
-                    <Select.Item key={theme} value={theme}>
-                      {theme}
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Root>
-              <p className="text-sm font-medium mb-1 mt-6">Font size (px)</p>
-              <TextField.Root
-                type="number"
-                placeholder="Type here"
-                value={editorFontSize}
-                onChange={(event) => setEditorFontSize(event.target.value)}
-              />
-            </Dialog.Content>
-          </Dialog.Root>
+          />
+          <SettingsDialog
+            theme={editorTheme}
+            onThemeChange={(value) => setEditorTheme(value)}
+            editorFontSize={editorFontSize}
+            onEditorFontSizeChange={(value) => setEditorFontSize(value)}
+          />
         </nav>
         <div className="flex-grow">
           <Editor
