@@ -1,22 +1,18 @@
-"use server";
-
-import { notFound } from "next/navigation";
-import dynamic from "next/dynamic";
+import { YDocProvider } from "@y-sweet/react";
 import { DocumentManager } from "@y-sweet/sdk";
 import { customAlphabet } from "nanoid/non-secure";
-import { YDocProvider } from "@y-sweet/react";
+import { notFound } from "next/navigation";
 
 import * as crud from "@/utils/crud";
 import { getRandomAnimalName } from "@/utils/user";
-
-const Interview = dynamic(() => import("./interview"), { ssr: false });
+import { Interview } from "./interview";
 
 const nanoid = customAlphabet("1234567890abcdef");
 
 export default async function InterviewServerComponent({ params }) {
-  const interviewToken = params.token;
+  const { token } = await params;
 
-  const interview = await crud.getInterviewByToken(interviewToken);
+  const interview = await crud.getInterviewByToken(token);
   if (!interview) {
     notFound();
   }
@@ -26,11 +22,11 @@ export default async function InterviewServerComponent({ params }) {
   );
 
   const ySweetToken =
-    await yDocumentManager.getOrCreateDocAndToken(interviewToken);
+    await yDocumentManager.getOrCreateDocAndToken(token);
 
   const authToken = ySweetToken.token ?? nanoid();
   const name = `Anonymous ${getRandomAnimalName()}`;
-  crud.createNewParticipant(interviewToken, authToken, name);
+  crud.createNewParticipant(token, authToken, name);
 
   return (
     <YDocProvider clientToken={ySweetToken}>

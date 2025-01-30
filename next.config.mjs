@@ -4,9 +4,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  experimental: {
-    serverComponentsExternalPackages: ["yjs", "@y-sweet/sdk"],
-  },
+  serverExternalPackages: ["yjs", "@y-sweet/sdk"]
 };
 
 export default nextConfig;

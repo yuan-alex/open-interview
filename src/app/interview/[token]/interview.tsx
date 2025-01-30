@@ -26,7 +26,7 @@ interface InterviewProps {
   authToken: string;
 }
 
-export default function Interview(props: InterviewProps) {
+export function Interview(props: InterviewProps) {
   const [editorLanguage, setEditorLanguage] = useState(
     supportedLanguages.find((lang) => lang.id === 63),
   );
