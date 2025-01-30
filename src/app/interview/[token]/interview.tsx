@@ -109,19 +109,18 @@ export function Interview(props: InterviewProps) {
           {yCodeSubmissions.length > 0 ? (
             <div className="p-3 flex flex-col space-y-3">
               {yCodeSubmissions.map((result) => (
-                <Card key={result.id}>
-                  <div className="mb-3">
-                    <Badge color="gray">{result.languageLabel}</Badge>
-                  </div>
-                  <pre
-                    className="p-3 text-sm rounded overflow-x-auto"
-                    style={{
-                      backgroundColor: "var(--gray-3)",
-                    }}
-                  >
+                <div
+                  key={result.id}
+                  className="p-4 rounded overflow-x-auto"
+                  style={{
+                    backgroundColor: "var(--gray-2)",
+                  }}
+                >
+                  <div className="text-xs mb-3">{result.languageLabel}</div>
+                  <pre>
                     {result.stdout ?? result.stderr ?? result.compileOutput}
                   </pre>
-                </Card>
+                </div>
               ))}
             </div>
           ) : (
