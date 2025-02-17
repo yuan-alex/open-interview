@@ -1,4 +1,4 @@
-import { runCode } from "@/app/actions";
+import { runCode } from "@/utils/code";
 
 export async function POST(request: Request) {
   const { authToken, languageId, sourceCode } = await request.json();
