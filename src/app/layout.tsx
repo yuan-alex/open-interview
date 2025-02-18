@@ -1,6 +1,6 @@
+import { Theme, ThemePanel } from "@radix-ui/themes";
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
-import { Theme, ThemePanel } from "@radix-ui/themes";
 
 import "@radix-ui/themes/styles.css";
 import "./globals.css";
@@ -24,7 +24,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <Theme appearance="dark" accentColor="lime" radius="full">
           {children}
-          {process.env.NODE_ENV == "development" && <ThemePanel />}
+          {process.env.NODE_ENV === "development" && (
+            <ThemePanel defaultOpen={false} />
+          )}
         </Theme>
       </body>
     </html>
