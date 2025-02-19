@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 
 import "@radix-ui/themes/styles.css";
+
 import "./globals.css";
 
 const inter = Rubik({

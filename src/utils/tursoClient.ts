@@ -1,4 +1,4 @@
-import { Client, createClient } from "@libsql/client/http";
+import { type Client, createClient } from "@libsql/client/http";
 
 export function tursoClient(): Client {
   const url = process.env.LIBSQL_URL?.trim();

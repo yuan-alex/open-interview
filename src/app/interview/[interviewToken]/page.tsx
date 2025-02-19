@@ -2,9 +2,9 @@ import { YDocProvider } from "@y-sweet/react";
 import { customAlphabet } from "nanoid/non-secure";
 import { notFound } from "next/navigation";
 
+import { Interview } from "@/components/interview";
 import * as crud from "@/utils/crud";
 import { getRandomAnimalName } from "@/utils/user";
-import { Interview } from "./interview";
 
 const nanoid = customAlphabet("1234567890abcdef");
 

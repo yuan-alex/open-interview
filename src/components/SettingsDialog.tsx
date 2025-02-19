@@ -1,12 +1,4 @@
-import {
-  Badge,
-  Button,
-  Card,
-  Code,
-  Dialog,
-  Select,
-  TextField,
-} from "@radix-ui/themes";
+import { Button, Dialog, Select, TextField } from "@radix-ui/themes";
 
 const themes = ["vs-light", "vs-dark"];
 

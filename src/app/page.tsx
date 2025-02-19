@@ -3,7 +3,8 @@ import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { RxGithubLogo } from "react-icons/rx";
 
-import * as crud from "../utils/crud";
+import * as crud from "@/utils/crud";
+
 import demo from "./demo.png";
 
 export default function Home() {

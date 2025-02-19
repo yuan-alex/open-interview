@@ -1,6 +1,6 @@
 import { customAlphabet } from "nanoid/non-secure";
 
-import { tursoClient } from "./tursoClient";
+import { tursoClient } from "@/utils/tursoClient";
 
 export const nanoid = customAlphabet("1234567890abcdef");
 
