@@ -1,19 +1,19 @@
-import { notFound, redirect } from "next/navigation";
-import Image from "next/image";
-import { RxGithubLogo } from "react-icons/rx";
 import { Button } from "@radix-ui/themes";
+import Image from "next/image";
+import { notFound, redirect } from "next/navigation";
+import { RxGithubLogo } from "react-icons/rx";
 
-import demo from "./demo.png";
 import * as crud from "../utils/crud";
+import demo from "./demo.png";
 
 export default function Home() {
   async function onSubmit(event: FormData) {
     "use server";
 
     if (
-      process.env.NEXT_PUBLIC_OPEN_INTERIVEW_AUTH_ENABLED === "true" &&
+      process.env.NEXT_PUBLIC_OPEN_INTERVIEW_AUTH_ENABLED === "true" &&
       (!event.get("password") ||
-        event.get("password") !== process.env.SECRET_KEY!)
+        event.get("password") !== process.env.OPEN_INTERVIEW_SECRET_KEY!)
     ) {
       return notFound();
     }
@@ -44,7 +44,7 @@ export default function Home() {
         </p>
         <div className="my-10" />
         <form action={onSubmit}>
-          {process.env.NEXT_PUBLIC_OPEN_INTERIVEW_AUTH_ENABLED === "true" && (
+          {process.env.NEXT_PUBLIC_OPEN_INTERVIEW_AUTH_ENABLED === "true" && (
             <input
               type="password"
               name="password"
