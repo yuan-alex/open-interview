@@ -69,10 +69,10 @@ export function Interview(props: InterviewProps) {
 
   return (
     <div className="h-screen flex">
-      <div className="flex w-2/3 flex-grow flex-col">
+      <div className="flex w-2/3 grow flex-col">
         <nav className="p-2 flex items-center space-x-2">
           <p className="text-lg font-light">Open Interview</p>
-          <span className="flex-grow" />
+          <span className="grow" />
           <LanguageSelector
             value={editorLanguage.id.toString()}
             onValueChange={(value) =>
@@ -88,7 +88,7 @@ export function Interview(props: InterviewProps) {
             onEditorFontSizeChange={(value) => setEditorFontSize(value)}
           />
         </nav>
-        <div className="flex-grow">
+        <div className="grow">
           <Editor
             onMount={handleOnMount}
             height="100%"
@@ -102,14 +102,14 @@ export function Interview(props: InterviewProps) {
           />
         </div>
       </div>
-      <div className="w-1/3 flex-grow flex flex-col h-full">
-        <div className="flex-grow overflow-y-scroll h-full">
+      <div className="w-1/3 grow flex flex-col h-full">
+        <div className="grow overflow-y-scroll h-full">
           {yCodeSubmissions.length > 0 ? (
             <div className="p-3 flex flex-col space-y-3">
               {yCodeSubmissions.map((result) => (
                 <div
                   key={result.id}
-                  className="p-4 rounded overflow-x-auto"
+                  className="p-4 rounded-sm overflow-x-auto"
                   style={{
                     backgroundColor: "var(--gray-2)",
                   }}

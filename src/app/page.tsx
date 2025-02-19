@@ -29,7 +29,7 @@ export default function Home() {
     <div className="mx-auto w-4/5 lg:w-2/3">
       <nav className="flex items-center space-x-3 pt-5 mb-24">
         <div className="text-2xl">Open Interview</div>
-        <div className="flex-grow" />
+        <div className="grow" />
         <a href="https://github.com/yuan-alex/open-interview">
           <RxGithubLogo className="w-6 h-6" />
         </a>
