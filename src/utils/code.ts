@@ -40,14 +40,14 @@ export async function runCode(
   const judge0Result =
     process.env.NODE_ENV === "development"
       ? {
-        token: `STAGING ${new Date()}`,
-        stdout: sourceCode,
-        time: 0,
-        memory: 0,
-        stderr: null,
-        compile_output: null,
-        message: null,
-      }
+          token: `STAGING ${new Date()}`,
+          stdout: sourceCode,
+          time: 0,
+          memory: 0,
+          stderr: null,
+          compile_output: null,
+          message: null,
+        }
       : await judge0.compileCodeSync(languageId, sourceCode);
 
   await tursoClient().execute({

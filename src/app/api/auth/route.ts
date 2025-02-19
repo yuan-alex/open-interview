@@ -11,7 +11,10 @@ export async function POST(request: Request) {
     notFound();
   }
 
-  const clientToken = await getOrCreateDocAndToken(process.env.Y_SWEET_CONNECTION_STRING, docId);
+  const clientToken = await getOrCreateDocAndToken(
+    process.env.Y_SWEET_CONNECTION_STRING,
+    docId,
+  );
 
   return Response.json(clientToken);
 }
