@@ -1,12 +1,10 @@
 "use client";
 
 import { Editor } from "@monaco-editor/react";
-import { Badge, Button, Card } from "@radix-ui/themes";
-import { type YSweetProvider, createYjsProvider } from "@y-sweet/client";
+import { Button } from "@radix-ui/themes";
 import { useArray, useAwareness, useText } from "@y-sweet/react";
 import type { editor } from "monaco-editor";
 import { useCallback, useEffect, useState } from "react";
-import { RxCode, RxGithubLogo } from "react-icons/rx";
 import { MonacoBinding } from "y-monaco";
 import type * as Y from "yjs";
 

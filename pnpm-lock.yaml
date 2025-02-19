@@ -18,14 +18,14 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@y-sweet/client':
-        specifier: ^0.2.2
-        version: 0.2.2(yjs@13.6.19)
+        specifier: ^0.8.2
+        version: 0.8.2(yjs@13.6.19)
       '@y-sweet/react':
-        specifier: ^0.2.2
-        version: 0.2.2(react@18.3.1)(yjs@13.6.19)
+        specifier: ^0.8.2
+        version: 0.8.2(react@18.3.1)(yjs@13.6.19)
       '@y-sweet/sdk':
-        specifier: ^0.2.2
-        version: 0.2.2
+        specifier: ^0.8.2
+        version: 0.8.2
       daisyui:
         specifier: ^4.12.10
         version: 4.12.10(postcss@8.4.47)
@@ -1035,19 +1035,19 @@ packages:
   '@types/ws@8.5.12':
     resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
 
-  '@y-sweet/client@0.2.2':
-    resolution: {integrity: sha512-My1HfUG3q1DiM5g91FOnrDciFNTFvDHx2GDzC+O420kFAcwSNVpcCLlXKB6Li1dLQnoj6RGEDWiEyGLx4fTL4Q==}
+  '@y-sweet/client@0.8.2':
+    resolution: {integrity: sha512-yJ0dqC5VeyZF6KJs4aSRGUFphslSxHtNtrK1xIHAC9f4xFDUJX7pX5rY1htaraeMCELpFKnx5i0UFovqnaW6sg==}
     peerDependencies:
       yjs: ^13.0.0
 
-  '@y-sweet/react@0.2.2':
-    resolution: {integrity: sha512-j7VwLm4kxmGJcYNVsPS45mk8T12ieubwA1LZsy1rFh6AGzhGVHJOI0ChI1+NY6pr68Nt6SUZljRDncWEYx6l/w==}
+  '@y-sweet/react@0.8.2':
+    resolution: {integrity: sha512-jzSrX+oTh27GSE5yP2WMV+3JSeLWpdBPg79599K1sUEPXLV5Z+2QIF1YlUAmiF3yW+BtuXhpd8G2rIT5qTAd+A==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      yjs: ^13.0.0
+      react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
+      yjs: ^13
 
-  '@y-sweet/sdk@0.2.2':
-    resolution: {integrity: sha512-TadNOOhwXvhYLlUtO+zlvPomBUVPPnrxknjBdTgP5EMRRAefkujUC91WY+I7qscyYJPm5T/xhuM+lpYO7ywwsg==}
+  '@y-sweet/sdk@0.8.2':
+    resolution: {integrity: sha512-PQdbxMNu/ZwL+Z2JKO/6lftEdSUDZuRs7Rq8H6AjYHA4rdADPBfFtzLT9fjAcSCwBuqXSVO/G15bjrfbuViHpg==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -2679,21 +2679,21 @@ snapshots:
     dependencies:
       '@types/node': 22.7.4
 
-  '@y-sweet/client@0.2.2(yjs@13.6.19)':
+  '@y-sweet/client@0.8.2(yjs@13.6.19)':
     dependencies:
-      '@y-sweet/sdk': 0.2.2
+      '@y-sweet/sdk': 0.8.2
       y-protocols: 1.0.6(yjs@13.6.19)
       yjs: 13.6.19
 
-  '@y-sweet/react@0.2.2(react@18.3.1)(yjs@13.6.19)':
+  '@y-sweet/react@0.8.2(react@18.3.1)(yjs@13.6.19)':
     dependencies:
-      '@y-sweet/client': 0.2.2(yjs@13.6.19)
-      '@y-sweet/sdk': 0.2.2
+      '@y-sweet/client': 0.8.2(yjs@13.6.19)
+      '@y-sweet/sdk': 0.8.2
       react: 18.3.1
       y-protocols: 1.0.6(yjs@13.6.19)
       yjs: 13.6.19
 
-  '@y-sweet/sdk@0.2.2':
+  '@y-sweet/sdk@0.8.2':
     dependencies:
       '@types/node': 20.16.10
 
