@@ -103,7 +103,10 @@ export function Interview(props: InterviewProps) {
         </div>
       </div>
       <div className="w-1/3 grow flex flex-col h-full">
-        <div className="grow overflow-y-scroll h-full">
+        <div
+          className="grow overflow-y-scroll h-full"
+          data-testid="code-submissions"
+        >
           {yCodeSubmissions.length > 0 ? (
             <div className="p-3 flex flex-col space-y-3">
               {yCodeSubmissions.map((result) => (
@@ -132,7 +135,9 @@ export function Interview(props: InterviewProps) {
           )}
         </div>
         <div className="flex space-x-2 p-3">
-          <Button onClick={handleSubmitCode}>Run</Button>
+          <Button id="run-code" onClick={handleSubmitCode}>
+            Run
+          </Button>
         </div>
       </div>
     </div>
